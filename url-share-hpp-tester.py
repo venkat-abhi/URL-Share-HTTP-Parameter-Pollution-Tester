@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from termcolor import colored
 from urllib import request, parse
 import argparse
-import re
 import sys
 
 g_domain = ""
@@ -32,7 +31,7 @@ def create_url(url):
 
 
 """
-Sets the HTTP host headers
+	Sets the HTTP headers.
 """
 def set_headers():
 	opener = request.build_opener()
@@ -41,12 +40,13 @@ def set_headers():
 
 
 """
-	Checks if the url is a facebook share link, using the sharer mecahnism, with our parameter polluting it
+	Checks if the url is a facebook share link, using the sharer mecahnism, with our parameter polluting it.
 """
 def is_polluted_fb_url(url):
 	fb_str = "https://www.facebook.com/sharer/sharer.php"
 	fs = "&u=https://fsec404.github.io"
 	fs_encoded = "&u=https%3A%2F%2Ffsec404.github.io"
+
 	if (fb_str in str(url) and
 		(fs in str(url) or fs_encoded in str(url))):
 		return True
@@ -54,7 +54,7 @@ def is_polluted_fb_url(url):
 		return False
 
 """
-	Checks if the url can be polluted by our paramter
+	Checks if the url can be polluted by our paramter.
 """
 def pollution_tester(url):
 	global urls_to_go_to, g_depth
@@ -72,7 +72,7 @@ def pollution_tester(url):
 	for tag in soup.find_all('a'):
 		urls_to_go_to[g_depth].append(tag.get('href'))
 
-	print(urls_to_go_to[g_depth])
+	#print(urls_to_go_to[g_depth])
 	for url in urls_to_go_to[g_depth]:
 		if (is_polluted_fb_url(url)):
 			print(colored("[*] Possible pollution: "+url, "green"))
