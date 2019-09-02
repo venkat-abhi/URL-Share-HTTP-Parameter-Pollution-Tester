@@ -112,6 +112,3 @@ def main():
 if __name__ == "__main__":
 	main()
 
-# https://www.topuniversities.com/
-
-# handle request errors
